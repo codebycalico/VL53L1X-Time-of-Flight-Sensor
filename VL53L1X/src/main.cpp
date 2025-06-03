@@ -1,9 +1,12 @@
 #include <Arduino.h>
+//#include <Wire.h>
 #include <Adafruit_VL53L1X.h>
+#include "vl53l1x-st-api/vl53l1_api.h"
 
 #define IRQ_PIN 2
 #define XSHUT_PIN A1
 
+//VL53L1_RoiConfig_t RoiConfig;
 Adafruit_VL53L1X vl53 = Adafruit_VL53L1X(XSHUT_PIN, IRQ_PIN);
 
 void setup() {
@@ -22,6 +25,13 @@ void setup() {
 
   Serial.print(F("Sensor ID: 0x"));
   Serial.println(vl53.sensorID(), HEX);
+
+  vl53.VL53L1X_SetROI(4, 4);
+  // RoiConfig.UserRois[0].TopLeftX = 5;
+  // RoiConfig.UserRois[0].TopLeftY = 14;
+  // RoiConfig.UserRois[0].BotRightX = 8;
+  // RoiConfig.UserRois[0].BotRightY = 11;
+  // Status = VL53L1_SetUserROI(Dev, &RoiConfig);
 
   if (! vl53.startRanging()) {
     Serial.print(F("Couldn't start ranging: "));
